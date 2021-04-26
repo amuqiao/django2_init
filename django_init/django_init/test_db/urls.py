@@ -11,5 +11,7 @@ from . import views
 # ]
 
 urlpatterns = [
-    path(r'/', views.hello),
+    path(r'insert/', views.insert),
+    path(r'show/', views.show),
+
 ]

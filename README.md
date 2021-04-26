@@ -25,8 +25,16 @@ python3 manage.py runserver 0.0.0.0:8001
 ```
 
 
-配置
-```python
+### 配置
+```
 # 允许所有主机访问
 ALLOWED_HOSTS = ['0.0.0.0']
+# 添加模板路径
+'DIRS': [os.path.join(BASE_DIR, 'templates')],  
 ```
+
+### 创建APP
+```
+django-admin.py startapp TestModel
+```
+
