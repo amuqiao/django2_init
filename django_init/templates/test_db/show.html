@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ name }}</title>
+</head>
+<body>
+    <ul>
+    {% for ob in obs %}
+        <li>"id": {{ ob.id }} "name": {{ ob.name }} "db": {{ ob.db_name }} "tb": {{ ob.table_name }} "series":{{ob.tag.series}}</li>
+        {% for tags in ob.tag.series %}
+<!--            <li>"tag_name": {{tag.values}} </li>-->
+            {% for tag in tags.values %}
+                <li>"tag": {{tag}} </li>
+            {% endfor %}
+        {% endfor %}
+    {% endfor %}
+    </ul>
+</body>
+</html>

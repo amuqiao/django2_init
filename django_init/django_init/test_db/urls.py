@@ -13,5 +13,6 @@ from . import views
 urlpatterns = [
     path(r'insert/', views.insert),
     path(r'show/', views.show),
+    path(r'insert_json/', views.insert_json),
 
 ]

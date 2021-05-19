@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -25,8 +24,7 @@ SECRET_KEY = 'django-insecure-%qh6ybb(nbdugj^_!l9ozwcf6et$!iy4t!oci(bpp^x(jk%#3p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0']
-
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
 
 # Application definition
 
@@ -38,6 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'TestModel',  # 新增TestModel APP
+    'django_celery_beat',  # django_celery_beat
+    'django_celery_results'
 ]
 
 MIDDLEWARE = [
@@ -71,7 +71,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django_init.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -81,7 +80,7 @@ DATABASES = {
     #     'NAME': BASE_DIR / 'db.sqlite3',
     # },
     'default': {
-        'ENGINE': 'django.db.backends.mysql',    # 数据库引擎
+        'ENGINE': 'django.db.backends.mysql',  # 数据库引擎
         'NAME': 'django_init',  # 数据库名称
         'HOST': '127.0.0.1',  # 数据库地址，本机 ip 地址 127.0.0.1
         'PORT': 3306,  # 端口
@@ -89,7 +88,6 @@ DATABASES = {
         'PASSWORD': '123456',  # 数据库密码
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -109,7 +107,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -123,7 +120,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
@@ -133,3 +129,16 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Celery 配置
+
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'  # Broker配置，使用Redis作为消息中间件
+
+# CELERY_RESULT_BACKEND = 'redis://10.1.210.69:6379/0'  # BACKEND配置，这里使用redis
+CELERY_RESULT_BACKEND = 'django-db'  # 使用django orm 作为结果存储
+
+CELERY_RESULT_SERIALIZER = 'json'  # 结果序列化方案
+# 注册定时任务
+CELERY_IMPORTS = (
+    'djcelery_beat_app.tasks'
+)
